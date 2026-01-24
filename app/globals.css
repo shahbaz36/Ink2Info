@@ -12,6 +12,63 @@
   --font-mono: var(--font-geist-mono);
 }
 
+@theme {
+  /* Surface colors (backgrounds) - 900 is darkest */
+  --color-surface-700: oklch(1 0.1 244);      /* --bg-light (lightest/white) */
+  --color-surface-800: oklch(0.96 0.1 244);   /* --bg (default background) */
+  --color-surface-900: oklch(0.92 0.1 244);   /* --bg-dark (deepest background) */
+
+  /* Foreground colors (text) */
+  --color-foreground-900: oklch(0.15 0.2 244); /* --text (primary) */
+  --color-foreground-600: oklch(0.4 0.2 244);  /* --text-muted */
+
+  /* Accent/Highlight */
+  --color-accent-50: oklch(1 0.2 244);         /* --highlight */
+
+  /* Border colors */
+  --color-stroke: oklch(0.6 0.2 244);         /* --border (default) */
+  --color-stroke-muted: oklch(0.7 0.2 244);   /* --border-muted (subtle) */
+
+  /* Semantic colors */
+  --color-primary: oklch(0.4 0.2 244);
+  --color-secondary: oklch(0.4 0.2 64);
+  --color-danger: oklch(0.5 0.2 30);
+  --color-warning: oklch(0.5 0.2 100);
+  --color-success: oklch(0.5 0.2 160);
+  --color-info: oklch(0.5 0.2 260);
+}
+
+@layer theme {
+  :root, :host {
+    @variant dark {
+      
+      /* Surface colors (backgrounds) - 900 is darkest */
+      --color-surface-700: oklch(0.2 0.1 244);    /* --bg-light (highest layer in dark mode) */
+      --color-surface-800: oklch(0.15 0.1 244);   /* --bg (default background) */
+      --color-surface-900: oklch(0.1 0.1 244);    /* --bg-dark (deepest background) */
+
+      /* Foreground colors (text) */
+      --color-foreground-900: oklch(0.96 0.1 244); /* --text (primary high-contrast) */
+      --color-foreground-600: oklch(0.76 0.1 244); /* --text-muted */
+
+      /* Accent/Highlight */
+      --color-accent-50: oklch(0.5 0.2 244);       /* --highlight */
+
+      /* Border colors */
+      --color-stroke: oklch(0.4 0.2 244);         /* --border (default) */
+      --color-stroke-muted: oklch(0.3 0.2 244);   /* --border-muted (subtle) */
+
+      /* Semantic colors */
+      --color-primary: oklch(0.76 0.2 244);
+      --color-secondary: oklch(0.76 0.2 64);
+      --color-danger: oklch(0.7 0.2 30);
+      --color-warning: oklch(0.7 0.2 100);
+      --color-success: oklch(0.7 0.2 160);
+      --color-info: oklch(0.7 0.2 260);
+    }
+  }
+}
+
 @media (prefers-color-scheme: dark) {
   :root {
     --background: #0a0a0a;

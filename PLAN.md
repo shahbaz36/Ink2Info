@@ -1,3 +1,40 @@
+# Description
+Project Overview: Build a "Smart Writing Interface" EMR system designed to digitize handwritten medical prescriptions without changing the doctor's traditional paper-based workflow. The system captures pen strokes from a digital writing pad (e.g., Wacom/XP-Pen) and converts them into structured, interoperable medical records linked to India's national health infrastructure (ABDM).
+
+## Core Components to Implement
+
+### Stroke Capture & Vectorization
+- Capture real-time pen strokes including X/Y coordinates, pressure, and timing.
+- **Requirement:** Store strokes as lightweight vectors instead of bulky images to ensure a low storage footprint and fast synchronization.
+
+### Intelligent Section Detection
+- Develop a system to auto-detect "Structured Zones" on a digital prescription sheet.
+- **Key sections include:** Patient Info, Diagnosis, Medicines, Tests, and Advice.
+
+### ML-Powered OCR Pipeline
+- Integrate a machine learning pipeline to convert captured handwriting/strokes into structured text data.
+
+### ABDM & ABHA Integration
+- Implement a QR code scanner to instantly verify patient identity and link prescriptions to the ABHA (National Health ID).
+- Ensure every prescription is auto-linked to the national health record for nationwide access.
+
+### Role-Based Access Control (RBAC)
+- **Doctor:** Full access to all record details.
+- **Emergency:** Instant access to critical life-saving information only (no login friction).
+- **Chemist:** Access restricted to the "Medicines" section only.
+
+## Technical Architecture & Constraints
+- **Database:** MongoDB.
+- **Connectivity:** "Offline-First" architecture to support rural areas and low-connectivity settings.
+- **Data Sync:** Implement fast sync capabilities to upload local vector data to the cloud once online.
+- **Hardware Interface:** Compatible with Wacom or XP-Pen tablets.
+
+## Target User Workflows
+- **The Doctor:** Writes on a structured digital sheet; the system automatically records and syncs data while providing a physical paper copy for the patient.
+- **The Patient:** Receives a traditional paper prescription but gains a permanent digital record accessible nationwide.
+
+---
+
 # Smart Writing Interface EMR - Comprehensive Development Plan
 
 ## Project Timeline Overview
