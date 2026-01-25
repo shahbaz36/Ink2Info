@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Doctor Interface - Ink2Info</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    /* Animation keyframes - portable to framer-motion */
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    @keyframes slideUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes slideIn {
+      from { opacity: 0; transform: translateX(-20px); }
+      to { opacity: 1; transform: translateX(0); }
+    }
+    @keyframes scaleIn {
+      from { opacity: 0; transform: scale(0.95); }
+      to { opacity: 1; transform: scale(1); }
+    }
+    
+    .animate-fadeIn {
+      animation: fadeIn 0.4s ease-out forwards;
+    }
+    .animate-slideUp {
+      animation: slideUp 0.4s ease-out forwards;
+    }
+    .animate-slideIn {
+      animation: slideIn 0.4s ease-out forwards;
+    }
+    .animate-scaleIn {
+      animation: scaleIn 0.3s ease-out forwards;
+    }
+    
+    /* Stagger delays */
+    .delay-1 { animation-delay: 0.1s; opacity: 0; }
+    .delay-2 { animation-delay: 0.2s; opacity: 0; }
+    .delay-3 { animation-delay: 0.3s; opacity: 0; }
+    .delay-4 { animation-delay: 0.4s; opacity: 0; }
+    .delay-5 { animation-delay: 0.5s; opacity: 0; }
+    
+    /* Hover transitions */
+    .hover-lift {
+      transition: transform 0.2s ease-out, box-shadow 0.2s ease-out;
+    }
+    .hover-lift:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    }
+    
+    /* Zone highlight on focus */
+    .zone-highlight {
+      transition: border-color 0.2s ease-out, background-color 0.2s ease-out;
+    }
+    .zone-highlight:focus-within {
+      border-color: #6366f1;
+      background-color: #eef2ff;
+    }
+    
+    /* Pulse animation for sync indicator */
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.5; }
+    }
+    .animate-pulse-slow {
+      animation: pulse 2s ease-in-out infinite;
+    }
+  </style>
+</head>
+<body class="bg-slate-50 min-h-screen">
+  <!-- Header -->
+  <header class="bg-white border-b border-slate-200 sticky top-0 z-50 animate-fadeIn">
+    <div class="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <div class="w-10 h-10 bg-indigo-600 rounded-lg flex items-center justify-center">
+          <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+          </svg>
+        </div>
+        <div>
+          <h1 class="text-xl font-bold text-slate-800">Ink2Info</h1>
+          <p class="text-xs text-slate-500">Doctor Interface</p>
+        </div>
+      </div>
+      
+      <div class="flex items-center gap-4">
+        <!-- Sync Status -->
+        <div id="syncStatus" class="flex items-center gap-2 px-3 py-1.5 bg-green-50 text-green-700 rounded-full text-sm">
+          <span class="w-2 h-2 bg-green-500 rounded-full animate-pulse-slow"></span>
+          <span>Synced</span>
+        </div>
+        
+        <!-- User -->
+        <div class="flex items-center gap-2">
+          <div class="w-8 h-8 bg-indigo-100 rounded-full flex items-center justify-center">
+            <span class="text-indigo-600 font-semibold text-sm">DR</span>
+          </div>
+          <span class="text-sm font-medium text-slate-700">Dr. Sharma</span>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main class="max-w-7xl mx-auto px-4 py-6">
+    <div class="grid grid-cols-12 gap-6">
+      
+      <!-- Left Sidebar - Patient Info -->
+      <aside class="col-span-3 space-y-4">
+        <!-- Scan Patient Card -->
+        <div class="bg-white rounded-xl border border-slate-200 p-4 hover-lift animate-slideIn delay-1">
+          <h2 class="font-semibold text-slate-800 mb-3 flex items-center gap-2">
+            <svg class="w-5 h-5 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v1m6 11h2m-6 0h-2v4m0-11v3m0 0h.01M12 12h4.01M16 20h4M4 12h4m12 0h.01M5 8h2a1 1 0 001-1V5a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1zm12 0h2a1 1 0 001-1V5a1 1 0 00-1-1h-2a1 1 0 00-1 1v2a1 1 0 001 1zM5 20h2a1 1 0 001-1v-2a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1z"/>
+            </svg>
+            Scan ABHA
+          </h2>
+          <button id="scanBtn" class="w-full py-3 bg-indigo-600 text-white rounded-lg font-medium hover:bg-indigo-700 transition-colors flex items-center justify-center gap-2">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"/>
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"/>
+            </svg>
+            Scan QR Code
+          </button>
+          <p class="text-xs text-slate-500 mt-2 text-center">Or enter ABHA ID manually</p>
+          <input type="text" placeholder="XX-XXXX-XXXX-XXXX" class="w-full mt-2 px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent">
+        </div>
+        
+        <!-- Patient Details Card -->
+        <div id="patientCard" class="bg-white rounded-xl border border-slate-200 p-4 animate-slideIn delay-2 hidden">
+          <h2 class="font-semibold text-slate-800 mb-3">Patient Details</h2>
+          <div class="space-y-3">
+            <div class="flex items-center gap-3">
+              <div class="w-12 h-12 bg-slate-100 rounded-full flex items-center justify-center">
+                <span class="text-slate-600 font-semibold">RK</span>
+              </div>
+              <div>
+                <p class="font-medium text-slate-800">Rajesh Kumar</p>
+                <p class="text-xs text-slate-500">Male, 45 years</p>
+              </div>
+            </div>
+            <div class="pt-3 border-t border-slate-100 space-y-2">
+              <div class="flex justify-between text-sm">
+                <span class="text-slate-500">Blood Group</span>
+                <span class="font-medium text-slate-800">B+</span>
+              </div>
+              <div class="flex justify-between text-sm">
+                <span class="text-slate-500">ABHA ID</span>
+                <span class="font-medium text-slate-800 font-mono text-xs">91-1234-5678-9012</span>
+              </div>
+              <div class="flex justify-between text-sm">
+                <span class="text-slate-500">Allergies</span>
+                <span class="font-medium text-red-600">Penicillin</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Recent Prescriptions -->
+        <div class="bg-white rounded-xl border border-slate-200 p-4 animate-slideIn delay-3">
+          <h2 class="font-semibold text-slate-800 mb-3">Recent Prescriptions</h2>
+          <div class="space-y-2">
+            <div class="p-2 bg-slate-50 rounded-lg hover:bg-slate-100 transition-colors cursor-pointer">
+              <p class="text-sm font-medium text-slate-700">15 Jan 2025</p>
+              <p class="text-xs text-slate-500">Fever, Cold</p>
+            </div>
+            <div class="p-2 bg-slate-50 rounded-lg hover:bg-slate-100 transition-colors cursor-pointer">
+              <p class="text-sm font-medium text-slate-700">02 Jan 2025</p>
+              <p class="text-xs text-slate-500">Follow-up</p>
+            </div>
+          </div>
+        </div>
+      </aside>
+      
+      <!-- Main Canvas Area -->
+      <section class="col-span-6">
+        <div class="bg-white rounded-xl border border-slate-200 overflow-hidden animate-scaleIn delay-2">
+          <!-- Canvas Header -->
+          <div class="px-4 py-3 border-b border-slate-200 flex items-center justify-between">
+            <h2 class="font-semibold text-slate-800">Prescription Pad</h2>
+            <div class="flex items-center gap-2">
+              <button class="p-2 hover:bg-slate-100 rounded-lg transition-colors" title="Undo">
+                <svg class="w-5 h-5 text-slate-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h10a8 8 0 018 8v2M3 10l6 6m-6-6l6-6"/>
+                </svg>
+              </button>
+              <button class="p-2 hover:bg-slate-100 rounded-lg transition-colors" title="Clear">
+                <svg class="w-5 h-5 text-slate-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
+                </svg>
+              </button>
+            </div>
+          </div>
+          
+          <!-- Prescription Canvas with Zones -->
+          <div class="p-4 bg-slate-50">
+            <div class="bg-white border-2 border-slate-200 rounded-lg p-4 min-h-[600px] relative" id="prescriptionCanvas">
+              <!-- Patient Info Zone -->
+              <div class="zone-highlight border-2 border-dashed border-slate-300 rounded-lg p-3 mb-4">
+                <p class="text-xs font-medium text-slate-400 mb-2">PATIENT INFO</p>
+                <div class="h-16 bg-slate-50 rounded flex items-center justify-center text-slate-400 text-sm">
+                  Write patient details here...
+                </div>
+              </div>
+              
+              <!-- Diagnosis Zone -->
+              <div class="zone-highlight border-2 border-dashed border-amber-300 rounded-lg p-3 mb-4">
+                <p class="text-xs font-medium text-amber-500 mb-2">DIAGNOSIS</p>
+                <div class="h-20 bg-amber-50 rounded flex items-center justify-center text-amber-400 text-sm">
+                  Write diagnosis here...
+                </div>
+              </div>
+              
+              <!-- Medicines Zone -->
+              <div class="zone-highlight border-2 border-dashed border-green-300 rounded-lg p-3 mb-4">
+                <p class="text-xs font-medium text-green-500 mb-2">MEDICINES (Rx)</p>
+                <div class="h-32 bg-green-50 rounded flex items-center justify-center text-green-400 text-sm">
+                  Write prescriptions here...
+                </div>
+              </div>
+              
+              <!-- Tests Zone -->
+              <div class="zone-highlight border-2 border-dashed border-blue-300 rounded-lg p-3 mb-4">
+                <p class="text-xs font-medium text-blue-500 mb-2">TESTS</p>
+                <div class="h-16 bg-blue-50 rounded flex items-center justify-center text-blue-400 text-sm">
+                  Write tests here...
+                </div>
+              </div>
+              
+              <!-- Advice Zone -->
+              <div class="zone-highlight border-2 border-dashed border-purple-300 rounded-lg p-3">
+                <p class="text-xs font-medium text-purple-500 mb-2">ADVICE</p>
+                <div class="h-16 bg-purple-50 rounded flex items-center justify-center text-purple-400 text-sm">
+                  Write advice here...
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+      
+      <!-- Right Sidebar - OCR Preview & Actions -->
+      <aside class="col-span-3 space-y-4">
+        <!-- OCR Preview -->
+        <div class="bg-white rounded-xl border border-slate-200 p-4 animate-slideIn delay-4" style="animation-direction: reverse; transform-origin: right;">
+          <h2 class="font-semibold text-slate-800 mb-3 flex items-center gap-2">
+            <svg class="w-5 h-5 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+            </svg>
+            OCR Preview
+          </h2>
+          <div class="space-y-3">
+            <div class="p-2 bg-slate-50 rounded-lg">
+              <p class="text-xs text-slate-400 mb-1">Diagnosis</p>
+              <p class="text-sm text-slate-700">Waiting for input...</p>
+            </div>
+            <div class="p-2 bg-green-50 rounded-lg">
+              <p class="text-xs text-green-600 mb-1">Medicines</p>
+              <p class="text-sm text-slate-700">Waiting for input...</p>
+            </div>
+            <div class="p-2 bg-blue-50 rounded-lg">
+              <p class="text-xs text-blue-600 mb-1">Tests</p>
+              <p class="text-sm text-slate-700">Waiting for input...</p>
+            </div>
+          </div>
+          <div class="mt-3 pt-3 border-t border-slate-100">
+            <div class="flex items-center justify-between text-sm">
+              <span class="text-slate-500">Confidence</span>
+              <span class="font-medium text-slate-800">--</span>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Actions -->
+        <div class="bg-white rounded-xl border border-slate-200 p-4 animate-slideIn delay-5" style="animation-direction: reverse; transform-origin: right;">
+          <h2 class="font-semibold text-slate-800 mb-3">Actions</h2>
+          <div class="space-y-2">
+            <button class="w-full py-2.5 bg-indigo-600 text-white rounded-lg font-medium hover:bg-indigo-700 transition-colors flex items-center justify-center gap-2">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+              </svg>
+              Save Prescription
+            </button>
+            <button class="w-full py-2.5 bg-slate-100 text-slate-700 rounded-lg font-medium hover:bg-slate-200 transition-colors flex items-center justify-center gap-2">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"/>
+              </svg>
+              Print Copy
+            </button>
+            <button class="w-full py-2.5 border border-slate-200 text-slate-600 rounded-lg font-medium hover:bg-slate-50 transition-colors flex items-center justify-center gap-2">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"/>
+              </svg>
+              Sync to ABDM
+            </button>
+          </div>
+        </div>
+        
+        <!-- Quick Templates -->
+        <div class="bg-white rounded-xl border border-slate-200 p-4 animate-slideIn delay-5" style="animation-direction: reverse; transform-origin: right;">
+          <h2 class="font-semibold text-slate-800 mb-3">Quick Templates</h2>
+          <div class="flex flex-wrap gap-2">
+            <button class="px-3 py-1.5 bg-slate-100 text-slate-600 rounded-full text-sm hover:bg-slate-200 transition-colors">Fever</button>
+            <button class="px-3 py-1.5 bg-slate-100 text-slate-600 rounded-full text-sm hover:bg-slate-200 transition-colors">Cold</button>
+            <button class="px-3 py-1.5 bg-slate-100 text-slate-600 rounded-full text-sm hover:bg-slate-200 transition-colors">Diabetes</button>
+            <button class="px-3 py-1.5 bg-slate-100 text-slate-600 rounded-full text-sm hover:bg-slate-200 transition-colors">BP Check</button>
+          </div>
+        </div>
+      </aside>
+    </div>
+  </main>
+
+  <script>
+    // Simple interactions
+    document.getElementById('scanBtn').addEventListener('click', function() {
+      const patientCard = document.getElementById('patientCard');
+      patientCard.classList.remove('hidden');
+      patientCard.classList.add('animate-scaleIn');
+      
+      // Update sync status
+      const syncStatus = document.getElementById('syncStatus');
+      syncStatus.innerHTML = `
+        <span class="w-2 h-2 bg-amber-500 rounded-full animate-pulse-slow"></span>
+        <span>Syncing...</span>
+      `;
+      syncStatus.className = 'flex items-center gap-2 px-3 py-1.5 bg-amber-50 text-amber-700 rounded-full text-sm';
+      
+      setTimeout(() => {
+        syncStatus.innerHTML = `
+          <span class="w-2 h-2 bg-green-500 rounded-full animate-pulse-slow"></span>
+          <span>Synced</span>
+        `;
+        syncStatus.className = 'flex items-center gap-2 px-3 py-1.5 bg-green-50 text-green-700 rounded-full text-sm';
+      }, 2000);
+    });
+  </script>
+</body>
+</html>

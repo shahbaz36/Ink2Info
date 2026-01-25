@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chemist Interface - Ink2Info</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    /* Animation keyframes - portable to framer-motion */
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    @keyframes slideUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes slideIn {
+      from { opacity: 0; transform: translateX(-20px); }
+      to { opacity: 1; transform: translateX(0); }
+    }
+    @keyframes scaleIn {
+      from { opacity: 0; transform: scale(0.95); }
+      to { opacity: 1; transform: scale(1); }
+    }
+    @keyframes checkmark {
+      0% { stroke-dashoffset: 50; }
+      100% { stroke-dashoffset: 0; }
+    }
+    
+    .animate-fadeIn {
+      animation: fadeIn 0.4s ease-out forwards;
+    }
+    .animate-slideUp {
+      animation: slideUp 0.4s ease-out forwards;
+    }
+    .animate-slideIn {
+      animation: slideIn 0.4s ease-out forwards;
+    }
+    .animate-scaleIn {
+      animation: scaleIn 0.3s ease-out forwards;
+    }
+    
+    /* Stagger delays */
+    .delay-1 { animation-delay: 0.1s; opacity: 0; }
+    .delay-2 { animation-delay: 0.2s; opacity: 0; }
+    .delay-3 { animation-delay: 0.3s; opacity: 0; }
+    .delay-4 { animation-delay: 0.4s; opacity: 0; }
+    .delay-5 { animation-delay: 0.5s; opacity: 0; }
+    
+    /* Hover transitions */
+    .hover-lift {
+      transition: transform 0.2s ease-out, box-shadow 0.2s ease-out;
+    }
+    .hover-lift:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+    
+    /* Medicine item dispensed animation */
+    .dispensed {
+      transition: all 0.3s ease-out;
+    }
+    .dispensed.checked {
+      background-color: rgb(220 252 231);
+      border-color: rgb(34 197 94);
+    }
+    
+    /* Checkmark animation */
+    .checkmark-path {
+      stroke-dasharray: 50;
+      stroke-dashoffset: 50;
+    }
+    .checked .checkmark-path {
+      animation: checkmark 0.3s ease-out forwards;
+    }
+  </style>
+</head>
+<body class="bg-emerald-50 min-h-screen">
+  <!-- Header -->
+  <header class="bg-white border-b border-emerald-200 sticky top-0 z-50 animate-fadeIn">
+    <div class="max-w-5xl mx-auto px-4 py-3 flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <div class="w-10 h-10 bg-emerald-600 rounded-lg flex items-center justify-center">
+          <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"/>
+          </svg>
+        </div>
+        <div>
+          <h1 class="text-xl font-bold text-slate-800">Ink2Info</h1>
+          <p class="text-xs text-emerald-600">Chemist Interface</p>
+        </div>
+      </div>
+      
+      <div class="flex items-center gap-4">
+        <div class="flex items-center gap-2 px-3 py-1.5 bg-emerald-100 text-emerald-700 rounded-full text-sm">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>
+          </svg>
+          <span>Verified Pharmacy</span>
+        </div>
+        <div class="flex items-center gap-2">
+          <div class="w-8 h-8 bg-emerald-100 rounded-full flex items-center justify-center">
+            <span class="text-emerald-600 font-semibold text-sm">MK</span>
+          </div>
+          <span class="text-sm font-medium text-slate-700">MedKart Pharmacy</span>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main class="max-w-5xl mx-auto px-4 py-6">
+    <!-- Scan Section -->
+    <section class="mb-6 animate-slideUp delay-1">
+      <div class="bg-white rounded-xl border border-emerald-200 p-5">
+        <div class="flex flex-col sm:flex-row gap-4">
+          <div class="flex-1">
+            <label class="block text-sm font-medium text-slate-700 mb-2">Scan Prescription</label>
+            <div class="flex gap-2">
+              <button id="scanPrescriptionBtn" class="px-4 py-3 bg-emerald-600 text-white rounded-lg font-medium hover:bg-emerald-700 transition-colors flex items-center gap-2">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v1m6 11h2m-6 0h-2v4m0-11v3m0 0h.01M12 12h4.01M16 20h4M4 12h4m12 0h.01M5 8h2a1 1 0 001-1V5a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1zm12 0h2a1 1 0 001-1V5a1 1 0 00-1-1h-2a1 1 0 00-1 1v2a1 1 0 001 1zM5 20h2a1 1 0 001-1v-2a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1z"/>
+                </svg>
+                Scan QR
+              </button>
+              <input 
+                type="text" 
+                id="prescriptionId"
+                placeholder="Or enter Prescription ID" 
+                class="flex-1 px-4 py-3 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
+              >
+              <button id="lookupPrescriptionBtn" class="px-4 py-3 bg-slate-100 text-slate-700 rounded-lg font-medium hover:bg-slate-200 transition-colors">
+                Lookup
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Prescription Details (Hidden by default) -->
+    <section id="prescriptionDetails" class="hidden space-y-4">
+      <!-- Prescription Header -->
+      <div class="bg-white rounded-xl border border-emerald-200 p-5 animate-scaleIn">
+        <div class="flex items-start justify-between">
+          <div class="flex items-center gap-4">
+            <div class="w-14 h-14 bg-emerald-100 rounded-full flex items-center justify-center">
+              <span class="text-xl font-bold text-emerald-600">RK</span>
+            </div>
+            <div>
+              <h2 class="text-lg font-bold text-slate-800">Rajesh Kumar</h2>
+              <p class="text-sm text-slate-500">ABHA: 91-1234-5678-9012</p>
+            </div>
+          </div>
+          <div class="text-right">
+            <p class="text-sm font-medium text-slate-800">Prescription #RX-2025-0456</p>
+            <p class="text-xs text-slate-500">Issued: Jan 25, 2025</p>
+            <p class="text-xs text-slate-500">Valid until: Feb 25, 2025</p>
+          </div>
+        </div>
+        
+        <div class="mt-4 pt-4 border-t border-slate-100 flex items-center justify-between">
+          <div class="flex items-center gap-2">
+            <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
+            </svg>
+            <span class="text-sm text-slate-600">Prescribed by: <strong>Dr. Anita Sharma</strong></span>
+          </div>
+          <span class="px-3 py-1 bg-emerald-100 text-emerald-700 text-sm font-medium rounded-full">Valid</span>
+        </div>
+      </div>
+
+      <!-- Restricted Access Notice -->
+      <div class="bg-amber-50 border border-amber-200 rounded-xl p-4 flex items-start gap-3 animate-slideUp delay-1">
+        <svg class="w-5 h-5 text-amber-500 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+        </svg>
+        <div>
+          <p class="text-sm font-medium text-amber-800">Restricted View</p>
+          <p class="text-xs text-amber-600">Only medicine details are visible. Diagnosis and other patient information are restricted.</p>
+        </div>
+      </div>
+
+      <!-- Medicines List -->
+      <div class="bg-white rounded-xl border border-emerald-200 overflow-hidden animate-slideUp delay-2">
+        <div class="px-5 py-4 border-b border-slate-100 flex items-center justify-between">
+          <h3 class="font-semibold text-slate-800 flex items-center gap-2">
+            <svg class="w-5 h-5 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"/>
+            </svg>
+            Medicines to Dispense
+          </h3>
+          <span id="dispenseCount" class="text-sm text-slate-500">0 of 4 dispensed</span>
+        </div>
+        
+        <div class="divide-y divide-slate-100" id="medicinesList">
+          <!-- Medicine Item 1 -->
+          <div class="dispensed p-4 flex items-center gap-4 hover:bg-slate-50 transition-colors" data-medicine="1">
+            <button class="dispense-btn w-8 h-8 rounded-full border-2 border-slate-300 flex items-center justify-center hover:border-emerald-500 transition-colors flex-shrink-0">
+              <svg class="w-5 h-5 text-emerald-500 hidden checkmark" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                <path class="checkmark-path" d="M5 13l4 4L19 7" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </button>
+            <div class="flex-1">
+              <div class="flex items-center gap-2">
+                <h4 class="font-medium text-slate-800">Metformin 500mg</h4>
+                <span class="px-2 py-0.5 bg-blue-100 text-blue-600 text-xs rounded">Tablet</span>
+              </div>
+              <p class="text-sm text-slate-500 mt-1">Twice daily with meals • 30 tablets</p>
+            </div>
+            <div class="text-right">
+              <p class="text-sm font-medium text-slate-700">Qty: 30</p>
+              <p class="text-xs text-slate-400">1 strip of 10</p>
+            </div>
+          </div>
+          
+          <!-- Medicine Item 2 -->
+          <div class="dispensed p-4 flex items-center gap-4 hover:bg-slate-50 transition-colors" data-medicine="2">
+            <button class="dispense-btn w-8 h-8 rounded-full border-2 border-slate-300 flex items-center justify-center hover:border-emerald-500 transition-colors flex-shrink-0">
+              <svg class="w-5 h-5 text-emerald-500 hidden checkmark" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                <path class="checkmark-path" d="M5 13l4 4L19 7" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </button>
+            <div class="flex-1">
+              <div class="flex items-center gap-2">
+                <h4 class="font-medium text-slate-800">Amlodipine 5mg</h4>
+                <span class="px-2 py-0.5 bg-blue-100 text-blue-600 text-xs rounded">Tablet</span>
+              </div>
+              <p class="text-sm text-slate-500 mt-1">Once daily in morning • 30 tablets</p>
+            </div>
+            <div class="text-right">
+              <p class="text-sm font-medium text-slate-700">Qty: 30</p>
+              <p class="text-xs text-slate-400">1 strip of 10</p>
+            </div>
+          </div>
+          
+          <!-- Medicine Item 3 -->
+          <div class="dispensed p-4 flex items-center gap-4 hover:bg-slate-50 transition-colors" data-medicine="3">
+            <button class="dispense-btn w-8 h-8 rounded-full border-2 border-slate-300 flex items-center justify-center hover:border-emerald-500 transition-colors flex-shrink-0">
+              <svg class="w-5 h-5 text-emerald-500 hidden checkmark" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                <path class="checkmark-path" d="M5 13l4 4L19 7" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </button>
+            <div class="flex-1">
+              <div class="flex items-center gap-2">
+                <h4 class="font-medium text-slate-800">Aspirin 75mg</h4>
+                <span class="px-2 py-0.5 bg-blue-100 text-blue-600 text-xs rounded">Tablet</span>
+              </div>
+              <p class="text-sm text-slate-500 mt-1">Once daily after dinner • 30 tablets</p>
+            </div>
+            <div class="text-right">
+              <p class="text-sm font-medium text-slate-700">Qty: 30</p>
+              <p class="text-xs text-slate-400">1 strip of 10</p>
+            </div>
+          </div>
+          
+          <!-- Medicine Item 4 -->
+          <div class="dispensed p-4 flex items-center gap-4 hover:bg-slate-50 transition-colors" data-medicine="4">
+            <button class="dispense-btn w-8 h-8 rounded-full border-2 border-slate-300 flex items-center justify-center hover:border-emerald-500 transition-colors flex-shrink-0">
+              <svg class="w-5 h-5 text-emerald-500 hidden checkmark" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                <path class="checkmark-path" d="M5 13l4 4L19 7" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </button>
+            <div class="flex-1">
+              <div class="flex items-center gap-2">
+                <h4 class="font-medium text-slate-800">Vitamin D3 60000 IU</h4>
+                <span class="px-2 py-0.5 bg-amber-100 text-amber-600 text-xs rounded">Capsule</span>
+              </div>
+              <p class="text-sm text-slate-500 mt-1">Once weekly • 4 capsules</p>
+            </div>
+            <div class="text-right">
+              <p class="text-sm font-medium text-slate-700">Qty: 4</p>
+              <p class="text-xs text-slate-400">1 pack</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Action Buttons -->
+      <div class="flex gap-4 animate-slideUp delay-3">
+        <button id="completeDispenseBtn" class="flex-1 py-3 bg-emerald-600 text-white rounded-xl font-semibold hover:bg-emerald-700 transition-colors flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed" disabled>
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+          </svg>
+          Complete Dispensing
+        </button>
+        <button class="px-6 py-3 bg-slate-100 text-slate-700 rounded-xl font-semibold hover:bg-slate-200 transition-colors flex items-center justify-center gap-2">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"/>
+          </svg>
+          Print Bill
+        </button>
+      </div>
+
+      <!-- New Prescription Button -->
+      <button id="newPrescriptionBtn" class="w-full py-3 border border-slate-200 text-slate-600 rounded-xl font-medium hover:bg-slate-50 transition-colors flex items-center justify-center gap-2 animate-slideUp delay-4">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+        </svg>
+        Scan Another Prescription
+      </button>
+    </section>
+
+    <!-- Empty State (Shown by default) -->
+    <section id="emptyState" class="text-center py-16 animate-fadeIn delay-2">
+      <div class="w-20 h-20 bg-emerald-100 rounded-full flex items-center justify-center mx-auto mb-4">
+        <svg class="w-10 h-10 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"/>
+        </svg>
+      </div>
+      <h3 class="text-lg font-semibold text-slate-700 mb-2">No Prescription Loaded</h3>
+      <p class="text-slate-500 text-sm">Scan a prescription QR code or enter the prescription ID to view medicines</p>
+    </section>
+  </main>
+
+  <script>
+    const prescriptionDetails = document.getElementById('prescriptionDetails');
+    const emptyState = document.getElementById('emptyState');
+    const scanPrescriptionBtn = document.getElementById('scanPrescriptionBtn');
+    const lookupPrescriptionBtn = document.getElementById('lookupPrescriptionBtn');
+    const newPrescriptionBtn = document.getElementById('newPrescriptionBtn');
+    const completeDispenseBtn = document.getElementById('completeDispenseBtn');
+    const dispenseCount = document.getElementById('dispenseCount');
+    
+    let dispensedItems = 0;
+    const totalItems = 4;
+
+    function showPrescription() {
+      emptyState.classList.add('hidden');
+      prescriptionDetails.classList.remove('hidden');
+      dispensedItems = 0;
+      updateDispenseCount();
+      resetDispenseButtons();
+    }
+
+    function hidePrescription() {
+      prescriptionDetails.classList.add('hidden');
+      emptyState.classList.remove('hidden');
+      document.getElementById('prescriptionId').value = '';
+    }
+
+    function updateDispenseCount() {
+      dispenseCount.textContent = `${dispensedItems} of ${totalItems} dispensed`;
+      completeDispenseBtn.disabled = dispensedItems !== totalItems;
+    }
+
+    function resetDispenseButtons() {
+      document.querySelectorAll('.dispensed').forEach(item => {
+        item.classList.remove('checked');
+        item.querySelector('.checkmark').classList.add('hidden');
+      });
+    }
+
+    // Dispense button clicks
+    document.querySelectorAll('.dispense-btn').forEach(btn => {
+      btn.addEventListener('click', function() {
+        const parent = this.closest('.dispensed');
+        const checkmark = this.querySelector('.checkmark');
+        
+        if (parent.classList.contains('checked')) {
+          parent.classList.remove('checked');
+          checkmark.classList.add('hidden');
+          this.classList.remove('bg-emerald-500', 'border-emerald-500');
+          this.classList.add('border-slate-300');
+          dispensedItems--;
+        } else {
+          parent.classList.add('checked');
+          checkmark.classList.remove('hidden');
+          this.classList.add('bg-emerald-500', 'border-emerald-500');
+          this.classList.remove('border-slate-300');
+          dispensedItems++;
+        }
+        
+        updateDispenseCount();
+      });
+    });
+
+    // Event listeners
+    scanPrescriptionBtn.addEventListener('click', showPrescription);
+    lookupPrescriptionBtn.addEventListener('click', showPrescription);
+    newPrescriptionBtn.addEventListener('click', hidePrescription);
+
+    completeDispenseBtn.addEventListener('click', function() {
+      if (dispensedItems === totalItems) {
+        alert('Prescription dispensed successfully! Record has been updated.');
+        hidePrescription();
+      }
+    });
+
+    // Enter key on prescription ID input
+    document.getElementById('prescriptionId').addEventListener('keypress', function(e) {
+      if (e.key === 'Enter') {
+        showPrescription();
+      }
+    });
+  </script>
+</body>
+</html>

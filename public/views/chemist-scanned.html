@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chemist - Prescription View | Ink2Info</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes checkPop { 0% { transform: scale(0); } 50% { transform: scale(1.2); } 100% { transform: scale(1); } }
+    .animate-fadeIn { animation: fadeIn 0.4s ease-out forwards; }
+    .animate-check { animation: checkPop 0.3s ease-out; }
+    .delay-1 { animation-delay: 0.1s; opacity: 0; }
+    .delay-2 { animation-delay: 0.2s; opacity: 0; }
+    .delay-3 { animation-delay: 0.3s; opacity: 0; }
+    .delay-4 { animation-delay: 0.4s; opacity: 0; }
+    .hover-lift { transition: transform 0.2s, box-shadow 0.2s; }
+    .hover-lift:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+    .med-row.dispensed { background: linear-gradient(90deg, rgb(220 252 231) 0%, rgb(240 253 244) 100%); }
+    .med-row { transition: background 0.3s ease; }
+  </style>
+</head>
+<body class="bg-emerald-50 min-h-screen">
+
+  <!-- Header -->
+  <header class="bg-white border-b border-emerald-200 sticky top-0 z-50 animate-fadeIn">
+    <div class="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <div class="w-10 h-10 bg-emerald-600 rounded-lg flex items-center justify-center">
+          <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"/>
+          </svg>
+        </div>
+        <div>
+          <h1 class="text-xl font-bold text-slate-800">Ink2Info</h1>
+          <p class="text-xs text-emerald-600 font-medium">Chemist Portal</p>
+        </div>
+      </div>
+      <div class="flex items-center gap-3">
+        <div class="hidden sm:flex items-center gap-2 px-3 py-1.5 bg-emerald-100 text-emerald-700 rounded-full text-sm">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>
+          </svg>
+          <span>HealthFirst Pharmacy</span>
+        </div>
+        <div class="flex items-center gap-2">
+          <div class="w-8 h-8 bg-emerald-600 rounded-full flex items-center justify-center">
+            <span class="text-white font-semibold text-sm">RP</span>
+          </div>
+          <span class="text-sm font-medium text-slate-700 hidden sm:inline">Ramesh Patel</span>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main class="max-w-6xl mx-auto px-4 py-6">
+
+    <!-- Patient Info Banner -->
+    <section class="bg-white rounded-xl border border-emerald-200 p-4 mb-4 animate-fadeIn">
+      <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+        <div class="flex items-center gap-4">
+          <div class="w-14 h-14 bg-emerald-100 rounded-full flex items-center justify-center border-2 border-emerald-300">
+            <span class="text-xl font-bold text-emerald-600">RK</span>
+          </div>
+          <div>
+            <h2 class="text-lg font-bold text-slate-800">Rajesh Kumar</h2>
+            <p class="text-sm text-slate-500 font-mono">ABHA: 91-1234-5678-9012</p>
+          </div>
+        </div>
+        <div class="flex items-center gap-2">
+          <span class="px-3 py-1 bg-green-100 text-green-700 text-sm font-medium rounded-full flex items-center gap-1">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+            </svg>
+            Verified
+          </span>
+          <span class="px-3 py-1 bg-blue-100 text-blue-700 text-sm font-medium rounded-full">Male, 45y</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Restricted Access Notice -->
+    <div class="bg-amber-50 border border-amber-200 rounded-xl p-4 mb-4 flex items-start gap-3 animate-fadeIn delay-1">
+      <svg class="w-5 h-5 text-amber-500 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
+      </svg>
+      <div>
+        <p class="text-sm font-semibold text-amber-800">Restricted Access Mode</p>
+        <p class="text-xs text-amber-600">You can only view medicine details. Diagnosis, tests, and patient history are not accessible.</p>
+      </div>
+    </div>
+
+    <!-- Allergy Warning -->
+    <div class="bg-red-50 border border-red-200 rounded-xl p-4 mb-6 flex items-start gap-3 animate-fadeIn delay-1">
+      <svg class="w-5 h-5 text-red-500 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
+      </svg>
+      <div>
+        <p class="text-sm font-semibold text-red-800">Patient Allergies</p>
+        <p class="text-sm text-red-600"><strong>Penicillin</strong> (Severe), <strong>Sulfa Drugs</strong> (Moderate)</p>
+      </div>
+    </div>
+
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+
+      <!-- Main Content: Prescription -->
+      <div class="lg:col-span-2 space-y-4">
+
+        <!-- Prescription Card -->
+        <div class="bg-white rounded-xl border border-emerald-200 overflow-hidden animate-fadeIn delay-2">
+          <!-- Prescription Header -->
+          <div class="px-5 py-4 border-b border-slate-100">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+              <div>
+                <div class="flex items-center gap-2">
+                  <h3 class="font-bold text-slate-800 text-lg">Prescription</h3>
+                  <span class="px-2 py-0.5 bg-emerald-100 text-emerald-700 text-xs font-medium rounded">#RX-2025-0789</span>
+                </div>
+                <p class="text-sm text-slate-500 mt-1">Issued: 26 Jan 2025 	at 11:45 AM</p>
+              </div>
+              <div class="text-left sm:text-right">
+                <p class="text-xs text-slate-400">Prescribed by</p>
+                <p class="text-sm font-semibold text-slate-700">Dr. Anita Sharma</p>
+                <p class="text-xs text-slate-500">Reg. No: MCI-12345</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Validity Bar -->
+          <div class="px-5 py-3 bg-slate-50 border-b border-slate-100 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2">
+            <div class="flex items-center gap-4">
+              <span class="text-sm text-slate-600">Valid until: <strong class="text-slate-800">26 Feb 2025</strong></span>
+              <span class="px-2 py-0.5 bg-green-100 text-green-700 text-xs font-medium rounded-full">Active</span>
+            </div>
+            <div class="text-sm" id="dispenseProgress">
+              <span class="text-emerald-600 font-semibold">0</span>
+              <span class="text-slate-500">of 5 medicines dispensed</span>
+            </div>
+          </div>
+
+          <!-- Medicines List -->
+          <div class="divide-y divide-slate-100" id="medicineList">
+            <!-- Rendered by JS -->
+          </div>
+        </div>
+      </div>
+
+      <!-- Sidebar -->
+      <div class="space-y-4">
+
+        <!-- Billing Summary -->
+        <div class="bg-white rounded-xl border border-emerald-200 p-5 animate-fadeIn delay-3">
+          <h3 class="font-semibold text-slate-800 mb-4 flex items-center gap-2">
+            <svg class="w-5 h-5 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z"/>
+            </svg>
+            Billing Summary
+          </h3>
+          <div class="space-y-3 text-sm">
+            <div class="flex justify-between text-slate-600">
+              <span>Items Selected</span>
+              <span id="itemCount">0</span>
+            </div>
+            <div class="flex justify-between text-slate-600">
+              <span>Subtotal</span>
+              <span id="subtotal">	at	at285.00</span>
+            </div>
+            <div class="flex justify-between text-slate-600">
+              <span>GST (12%)</span>
+              <span id="gstAmount">	at	at20.00</span>
+            </div>
+            <div class="flex justify-between text-slate-600">
+              <span>Discount</span>
+              <span id="discount" class="text-green-600">-	at	at0.00</span>
+            </div>
+            <div class="border-t border-slate-200 pt-3 flex justify-between font-bold text-lg">
+              <span>Total</span>
+              <span id="totalAmount" class="text-emerald-600">	at	at0.00</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Actions -->
+        <div class="bg-white rounded-xl border border-emerald-200 p-4 animate-fadeIn delay-3">
+          <h3 class="font-semibold text-slate-800 mb-3">Actions</h3>
+          <div class="space-y-2">
+            <button id="completeBtn" disabled class="w-full py-3 bg-emerald-600 text-white rounded-lg font-semibold hover:bg-emerald-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+              </svg>
+              Complete Dispensing
+            </button>
+            <button class="w-full py-2.5 bg-slate-100 text-slate-700 rounded-lg font-medium hover:bg-slate-200 transition-colors flex items-center justify-center gap-2">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"/>
+              </svg>
+              Print Bill
+            </button>
+            <button onclick="window.location.href='chemist.html'" class="w-full py-2.5 border border-slate-200 text-slate-600 rounded-lg font-medium hover:bg-slate-50 transition-colors flex items-center justify-center gap-2">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v1m6 11h2m-6 0h-2v4m0-11v3m0 0h.01M12 12h4.01M16 20h4M4 12h4m12 0h.01M5 8h2a1 1 0 001-1V5a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1zm12 0h2a1 1 0 001-1V5a1 1 0 00-1-1h-2a1 1 0 00-1 1v2a1 1 0 001 1zM5 20h2a1 1 0 001-1v-2a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1z"/>
+              </svg>
+              Scan New Prescription
+            </button>
+          </div>
+        </div>
+
+        <!-- Past Prescriptions -->
+        <div class="bg-white rounded-xl border border-emerald-200 overflow-hidden animate-fadeIn delay-4">
+          <div class="px-4 py-3 border-b border-slate-100">
+            <h3 class="font-semibold text-slate-800">Past Prescriptions</h3>
+            <p class="text-xs text-slate-500">For this patient</p>
+          </div>
+          <div class="divide-y divide-slate-100">
+            <div class="p-3 hover:bg-slate-50 cursor-pointer transition-colors">
+              <div class="flex justify-between items-center">
+                <p class="text-sm font-medium text-slate-800">RX-2025-0654</p>
+                <span class="px-2 py-0.5 bg-green-100 text-green-600 text-xs rounded">Dispensed</span>
+              </div>
+              <p class="text-xs text-slate-500">10 Jan 2025 	at 	at 4 items</p>
+            </div>
+            <div class="p-3 hover:bg-slate-50 cursor-pointer transition-colors">
+              <div class="flex justify-between items-center">
+                <p class="text-sm font-medium text-slate-800">RX-2024-0521</p>
+                <span class="px-2 py-0.5 bg-green-100 text-green-600 text-xs rounded">Dispensed</span>
+              </div>
+              <p class="text-xs text-slate-500">28 Dec 2024 	at 	at 3 items</p>
+            </div>
+            <div class="p-3 hover:bg-slate-50 cursor-pointer transition-colors">
+              <div class="flex justify-between items-center">
+                <p class="text-sm font-medium text-slate-800">RX-2024-0498</p>
+                <span class="px-2 py-0.5 bg-slate-100 text-slate-600 text-xs rounded">Expired</span>
+              </div>
+              <p class="text-xs text-slate-500">15 Dec 2024 	at 	at 2 items</p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="mt-8 py-4 text-center border-t border-slate-200 bg-white">
+    <p class="text-sm text-slate-500">Access logged for compliance 	at Session: CHM-2025-01-26-78542</p>
+    <p class="text-xs text-slate-400 mt-1">	copy 2025 Ink2Info - ABDM Compliant</p>
+  </footer>
+
+  <script>
+    // Fake medicine data
+    const medicines = [
+      { id: 1, name: 'Metformin 500mg', form: 'Tablet', color: 'blue', dosage: 'Twice daily with meals', duration: '30 days', qty: 60, price: 120.00 },
+      { id: 2, name: 'Amlodipine 5mg', form: 'Tablet', color: 'blue', dosage: 'Once daily in morning', duration: '30 days', qty: 30, price: 85.00 },
+      { id: 3, name: 'Aspirin 75mg', form: 'Tablet', color: 'blue', dosage: 'Once daily after dinner', duration: '30 days', qty: 30, price: 45.00 },
+      { id: 4, name: 'Atorvastatin 20mg', form: 'Tablet', color: 'blue', dosage: 'Once daily at bedtime', duration: '30 days', qty: 30, price: 150.00 },
+      { id: 5, name: 'Pantoprazole 40mg', form: 'Capsule', color: 'amber', dosage: 'Once daily before breakfast', duration: '15 days', qty: 15, price: 95.00 }
+    ];
+
+    let dispensedSet = new Set();
+
+    function getFormBadgeColor(form) {
+      const colors = {
+        'Tablet': 'bg-blue-100 text-blue-600',
+        'Capsule': 'bg-amber-100 text-amber-600',
+        'Syrup': 'bg-purple-100 text-purple-600',
+        'Injection': 'bg-red-100 text-red-600'
+      };
+      return colors[form] || 'bg-slate-100 text-slate-600';
+    }
+
+    function renderMedicines() {
+      const container = document.getElementById('medicineList');
+      container.innerHTML = medicines.map(med => `
+        <div class="med-row p-4 flex items-center gap-4 hover:bg-slate-50 transition-all ${dispensedSet.has(med.id) ? 'dispensed' : ''}" data-id="${med.id}">
+          <button onclick="toggleDispense(${med.id})" class="flex-shrink-0 w-10 h-10 rounded-full border-2 ${dispensedSet.has(med.id) ? 'bg-emerald-500 border-emerald-500' : 'border-slate-300 hover:border-emerald-400'} flex items-center justify-center transition-all">
+            ${dispensedSet.has(med.id) ? '<svg class="w-6 h-6 text-white animate-check" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"/></svg>' : ''}
+          </button>
+          <div class="flex-1 min-w-0">
+            <div class="flex items-center gap-2 flex-wrap">
+              <h4 class="font-semibold text-slate-800">${med.name}</h4>
+              <span class="px-2 py-0.5 ${getFormBadgeColor(med.form)} text-xs rounded font-medium">${med.form}</span>
+            </div>
+            <p class="text-sm text-slate-500 mt-1">${med.dosage}</p>
+            <p class="text-xs text-slate-400">Duration: ${med.duration}</p>
+          </div>
+          <div class="text-right flex-shrink-0">
+            <p class="text-sm font-bold text-slate-800">Qty: ${med.qty}</p>
+            <p class="text-sm text-emerald-600 font-medium">₹${med.price.toFixed(2)}</p>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function toggleDispense(id) {
+      if (dispensedSet.has(id)) {
+        dispensedSet.delete(id);
+      } else {
+        dispensedSet.add(id);
+      }
+      updateUI();
+    }
+
+    function updateUI() {
+      renderMedicines();
+      
+      // Update dispense progress
+      document.getElementById('dispenseProgress').innerHTML = `
+        <span class="text-emerald-600 font-semibold">${dispensedSet.size}</span>
+        <span class="text-slate-500">of ${medicines.length} medicines dispensed</span>
+      `;
+
+      // Calculate billing
+      let subtotal = 0;
+      dispensedSet.forEach(id => {
+        const med = medicines.find(m => m.id === id);
+        if (med) subtotal += med.price;
+      });
+      
+      const gst = subtotal * 0.12;
+      const discount = subtotal > 400 ? subtotal * 0.05 : 0; // 5% discount over ₹400
+      const total = subtotal + gst - discount;
+
+      document.getElementById('itemCount').textContent = dispensedSet.size;
+      document.getElementById('subtotal').textContent = `₹${subtotal.toFixed(2)}`;
+      document.getElementById('gstAmount').textContent = `₹${gst.toFixed(2)}`;
+      document.getElementById('discount').textContent = `-₹${discount.toFixed(2)}`;
+      document.getElementById('totalAmount').textContent = `₹${total.toFixed(2)}`;
+
+      // Enable/disable complete button
+      document.getElementById('completeBtn').disabled = dispensedSet.size !== medicines.length;
+    }
+
+    // Complete dispensing
+    document.getElementById('completeBtn').addEventListener('click', function() {
+      if (dispensedSet.size === medicines.length) {
+        alert('✅ Prescription dispensed successfully!\n\nReceipt #: RCP-2025-01-26-4521\nPatient: Rajesh Kumar\nTotal: ₹' + document.getElementById('totalAmount').textContent.replace('₹', ''));
+        // In real app, would redirect or reset
+      }
+    });
+
+    // Initial render
+    renderMedicines();
+    updateUI();
+  </script>
+</body>
+</html>

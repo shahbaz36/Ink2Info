@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Emergency Access - Ink2Info</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    /* Animation keyframes - portable to framer-motion */
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    @keyframes slideUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes scaleIn {
+      from { opacity: 0; transform: scale(0.95); }
+      to { opacity: 1; transform: scale(1); }
+    }
+    @keyframes pulseGlow {
+      0%, 100% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.4); }
+      50% { box-shadow: 0 0 0 10px rgba(239, 68, 68, 0); }
+    }
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      25% { transform: translateX(-5px); }
+      75% { transform: translateX(5px); }
+    }
+    
+    .animate-fadeIn {
+      animation: fadeIn 0.4s ease-out forwards;
+    }
+    .animate-slideUp {
+      animation: slideUp 0.4s ease-out forwards;
+    }
+    .animate-scaleIn {
+      animation: scaleIn 0.3s ease-out forwards;
+    }
+    .animate-pulseGlow {
+      animation: pulseGlow 2s ease-in-out infinite;
+    }
+    .animate-shake {
+      animation: shake 0.5s ease-in-out;
+    }
+    
+    /* Stagger delays */
+    .delay-1 { animation-delay: 0.1s; opacity: 0; }
+    .delay-2 { animation-delay: 0.2s; opacity: 0; }
+    .delay-3 { animation-delay: 0.3s; opacity: 0; }
+    .delay-4 { animation-delay: 0.4s; opacity: 0; }
+    
+    /* Urgent pulse for critical info */
+    @keyframes urgentPulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.7; }
+    }
+    .animate-urgent {
+      animation: urgentPulse 1.5s ease-in-out infinite;
+    }
+    
+    /* Hover transitions */
+    .hover-lift {
+      transition: transform 0.2s ease-out, box-shadow 0.2s ease-out;
+    }
+    .hover-lift:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    }
+  </style>
+</head>
+<body class="bg-slate-900 min-h-screen">
+  <!-- Emergency Header -->
+  <header class="bg-red-600 text-white sticky top-0 z-50 animate-fadeIn">
+    <div class="max-w-4xl mx-auto px-4 py-4 flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <div class="w-10 h-10 bg-white/20 rounded-lg flex items-center justify-center animate-pulseGlow">
+          <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/>
+          </svg>
+        </div>
+        <div>
+          <h1 class="text-xl font-bold">EMERGENCY ACCESS</h1>
+          <p class="text-xs text-red-100">Critical Information Only</p>
+        </div>
+      </div>
+      <div class="text-right">
+        <p class="text-xs text-red-200">No Login Required</p>
+        <p class="text-sm font-medium">Life-Saving Data</p>
+      </div>
+    </div>
+  </header>
+
+  <main class="max-w-4xl mx-auto px-4 py-8">
+    <!-- Quick Scan Section -->
+    <section class="mb-8 animate-slideUp delay-1">
+      <div class="bg-slate-800 rounded-2xl border border-slate-700 p-6">
+        <div class="text-center mb-6">
+          <h2 class="text-2xl font-bold text-white mb-2">Quick Patient Lookup</h2>
+          <p class="text-slate-400">Scan QR or enter ABHA ID for instant access</p>
+        </div>
+        
+        <div class="flex flex-col sm:flex-row gap-4 max-w-xl mx-auto">
+          <button id="emergencyScanBtn" class="flex-1 py-4 bg-red-600 text-white rounded-xl font-semibold hover:bg-red-700 transition-colors flex items-center justify-center gap-3 animate-pulseGlow">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v1m6 11h2m-6 0h-2v4m0-11v3m0 0h.01M12 12h4.01M16 20h4M4 12h4m12 0h.01M5 8h2a1 1 0 001-1V5a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1zm12 0h2a1 1 0 001-1V5a1 1 0 00-1-1h-2a1 1 0 00-1 1v2a1 1 0 001 1zM5 20h2a1 1 0 001-1v-2a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1z"/>
+            </svg>
+            SCAN PATIENT QR
+          </button>
+          <div class="flex-1">
+            <input 
+              type="text" 
+              id="abhaInput"
+              placeholder="Enter ABHA ID" 
+              class="w-full px-4 py-4 bg-slate-700 border border-slate-600 rounded-xl text-white text-lg text-center font-mono placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent"
+            >
+          </div>
+        </div>
+        <button id="lookupBtn" class="w-full mt-4 py-3 bg-slate-700 text-white rounded-xl font-medium hover:bg-slate-600 transition-colors">
+          Access Critical Info
+        </button>
+      </div>
+    </section>
+
+    <!-- Critical Info Display (Hidden by default) -->
+    <section id="criticalInfo" class="hidden space-y-4">
+      <!-- Patient Identity Banner -->
+      <div class="bg-slate-800 rounded-2xl border border-slate-700 p-4 animate-scaleIn">
+        <div class="flex items-center gap-4">
+          <div class="w-16 h-16 bg-red-600/20 rounded-full flex items-center justify-center border-2 border-red-500">
+            <span class="text-2xl font-bold text-red-400">RK</span>
+          </div>
+          <div class="flex-1">
+            <h3 class="text-xl font-bold text-white">Rajesh Kumar</h3>
+            <p class="text-slate-400">Male • 45 years • ABHA: 91-1234-5678-9012</p>
+          </div>
+          <div class="text-right">
+            <p class="text-xs text-slate-500">Last Updated</p>
+            <p class="text-sm text-slate-300">2 hours ago</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Critical Alerts Grid -->
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+        <!-- Blood Type -->
+        <div class="bg-gradient-to-br from-red-600/20 to-red-800/20 rounded-xl border border-red-500/50 p-4 animate-slideUp delay-1 hover-lift">
+          <div class="flex items-center gap-2 mb-2">
+            <svg class="w-5 h-5 text-red-400" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M12 2c-5.33 4.55-8 8.48-8 11.8 0 4.98 3.8 8.2 8 8.2s8-3.22 8-8.2c0-3.32-2.67-7.25-8-11.8z"/>
+            </svg>
+            <span class="text-red-300 text-sm font-medium">Blood Type</span>
+          </div>
+          <p class="text-4xl font-bold text-white">B+</p>
+        </div>
+
+        <!-- Allergies -->
+        <div class="bg-gradient-to-br from-amber-600/20 to-amber-800/20 rounded-xl border border-amber-500/50 p-4 animate-slideUp delay-2 hover-lift animate-urgent">
+          <div class="flex items-center gap-2 mb-2">
+            <svg class="w-5 h-5 text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
+            </svg>
+            <span class="text-amber-300 text-sm font-medium">ALLERGIES</span>
+          </div>
+          <p class="text-xl font-bold text-white">Penicillin</p>
+          <p class="text-amber-300 text-sm">Sulfa drugs</p>
+        </div>
+
+        <!-- Emergency Contact -->
+        <div class="bg-gradient-to-br from-blue-600/20 to-blue-800/20 rounded-xl border border-blue-500/50 p-4 animate-slideUp delay-3 hover-lift">
+          <div class="flex items-center gap-2 mb-2">
+            <svg class="w-5 h-5 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/>
+            </svg>
+            <span class="text-blue-300 text-sm font-medium">Emergency Contact</span>
+          </div>
+          <p class="text-lg font-bold text-white">Sunita Kumar</p>
+          <p class="text-blue-300 text-sm font-mono">+91 98765 43210</p>
+        </div>
+      </div>
+
+      <!-- Current Medications -->
+      <div class="bg-slate-800 rounded-2xl border border-slate-700 p-5 animate-slideUp delay-4">
+        <h3 class="text-lg font-bold text-white mb-4 flex items-center gap-2">
+          <svg class="w-5 h-5 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"/>
+          </svg>
+          Current Medications
+        </h3>
+        <div class="space-y-3">
+          <div class="flex items-center justify-between p-3 bg-slate-700/50 rounded-lg">
+            <div>
+              <p class="font-medium text-white">Metformin 500mg</p>
+              <p class="text-sm text-slate-400">Twice daily with meals</p>
+            </div>
+            <span class="px-2 py-1 bg-green-600/20 text-green-400 text-xs font-medium rounded">Active</span>
+          </div>
+          <div class="flex items-center justify-between p-3 bg-slate-700/50 rounded-lg">
+            <div>
+              <p class="font-medium text-white">Amlodipine 5mg</p>
+              <p class="text-sm text-slate-400">Once daily morning</p>
+            </div>
+            <span class="px-2 py-1 bg-green-600/20 text-green-400 text-xs font-medium rounded">Active</span>
+          </div>
+          <div class="flex items-center justify-between p-3 bg-slate-700/50 rounded-lg">
+            <div>
+              <p class="font-medium text-white">Aspirin 75mg</p>
+              <p class="text-sm text-slate-400">Once daily after dinner</p>
+            </div>
+            <span class="px-2 py-1 bg-green-600/20 text-green-400 text-xs font-medium rounded">Active</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Medical Conditions -->
+      <div class="bg-slate-800 rounded-2xl border border-slate-700 p-5 animate-slideUp delay-4">
+        <h3 class="text-lg font-bold text-white mb-4 flex items-center gap-2">
+          <svg class="w-5 h-5 text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+          </svg>
+          Known Conditions
+        </h3>
+        <div class="flex flex-wrap gap-2">
+          <span class="px-3 py-1.5 bg-purple-600/20 text-purple-300 rounded-full text-sm font-medium">Type 2 Diabetes</span>
+          <span class="px-3 py-1.5 bg-purple-600/20 text-purple-300 rounded-full text-sm font-medium">Hypertension</span>
+          <span class="px-3 py-1.5 bg-purple-600/20 text-purple-300 rounded-full text-sm font-medium">Mild Asthma</span>
+        </div>
+      </div>
+
+      <!-- Action Buttons -->
+      <div class="flex gap-4 pt-4">
+        <button class="flex-1 py-3 bg-red-600 text-white rounded-xl font-semibold hover:bg-red-700 transition-colors flex items-center justify-center gap-2">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"/>
+          </svg>
+          Print Summary
+        </button>
+        <button id="newSearchBtn" class="flex-1 py-3 bg-slate-700 text-white rounded-xl font-semibold hover:bg-slate-600 transition-colors flex items-center justify-center gap-2">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+          </svg>
+          New Search
+        </button>
+      </div>
+    </section>
+
+    <!-- Disclaimer -->
+    <footer class="mt-8 text-center animate-fadeIn delay-4">
+      <p class="text-slate-500 text-sm">
+        Emergency access is logged and audited. For life-saving purposes only.
+      </p>
+      <p class="text-slate-600 text-xs mt-1">
+        © 2025 Ink2Info - ABDM Compliant
+      </p>
+    </footer>
+  </main>
+
+  <script>
+    const criticalInfo = document.getElementById('criticalInfo');
+    const lookupBtn = document.getElementById('lookupBtn');
+    const emergencyScanBtn = document.getElementById('emergencyScanBtn');
+    const newSearchBtn = document.getElementById('newSearchBtn');
+    const abhaInput = document.getElementById('abhaInput');
+
+    function showCriticalInfo() {
+      criticalInfo.classList.remove('hidden');
+      criticalInfo.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+
+    function hideCriticalInfo() {
+      criticalInfo.classList.add('hidden');
+      abhaInput.value = '';
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    lookupBtn.addEventListener('click', function() {
+      if (abhaInput.value.trim() === '') {
+        abhaInput.classList.add('animate-shake');
+        abhaInput.classList.add('ring-2', 'ring-red-500');
+        setTimeout(() => {
+          abhaInput.classList.remove('animate-shake');
+          abhaInput.classList.remove('ring-2', 'ring-red-500');
+        }, 500);
+        return;
+      }
+      showCriticalInfo();
+    });
+
+    emergencyScanBtn.addEventListener('click', showCriticalInfo);
+    newSearchBtn.addEventListener('click', hideCriticalInfo);
+
+    abhaInput.addEventListener('keypress', function(e) {
+      if (e.key === 'Enter') {
+        lookupBtn.click();
+      }
+    });
+  </script>
+</body>
+</html>
