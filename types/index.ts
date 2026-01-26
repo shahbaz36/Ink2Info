@@ -2,7 +2,7 @@ export interface User {
   id: string;
   name: string;
   email: string;
-  role: 'patient' | 'chemist' | 'doctor';
+  role: 'Doctor' | 'Chemist'|'Emergency';
 }
 
 export interface Prescription {
