@@ -55,7 +55,7 @@ Project Overview: Build a "Smart Writing Interface" EMR system designed to digit
   bun install react-signature-canvas tesseract.js mongodb
   bun install @yudiel/react-qr-scanner pouchdb-browser
   bun install tailwindcss framer-motion lucide-react
-  bun install next-auth @types/bcryptjs jsonwebtoken
+  bun install @workos-inc/node @workos-inc/auth-kit
   ```
 - [ ] Create folder structure:
   ```
@@ -74,7 +74,7 @@ Project Overview: Build a "Smart Writing Interface" EMR system designed to digit
   /lib
     /db (MongoDB connection)
     /sync (offline sync)
-    /auth (JWT handling)
+    /auth (WorkOS integration)
   /types (TypeScript interfaces)
   ```
 
@@ -101,7 +101,7 @@ Project Overview: Build a "Smart Writing Interface" EMR system designed to digit
 **Maxum:**
 - [ ] Set up MongoDB Atlas database
 - [ ] Create database schemas for users, prescriptions, strokes
-- [ ] Implement JWT authentication system
+- [ ] Implement WorkOS authentication system
 - [ ] Create API routes for user management
 
 **Shahbaz:**
@@ -315,7 +315,7 @@ Project Overview: Build a "Smart Writing Interface" EMR system designed to digit
 ### Backend:
 - **Runtime:** Node.js (Next.js API routes)
 - **Database:** MongoDB Atlas
-- **Authentication:** JWT + NextAuth.js
+- **Authentication:** WorkOS SDK
 - **Sync:** Custom sync logic
 
 ### Key Features Priority:
