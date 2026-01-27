@@ -2,15 +2,8 @@
 
 import { usePathname } from 'next/navigation'
 import Link from 'next/link'
-import { User } from '@/types/index'
-
-type Role = User['role'];
-
-const ROLE_CONFIG: Record<Role, { color: string; title: string }> = {
-    Doctor: { color: 'bg-indigo-600', title: 'Doctor Interface' },
-    Chemist: { color: 'bg-emerald-600', title: 'Chemist Interface' },
-    Emergency: { color: 'bg-red-600', title: 'Emergency Interface' },
-};
+import { Role } from '@/types/index'
+import { ROLE_CONFIG } from '@/lib/constants/user';
 
 export default function Navbar() {
     const pathname = usePathname();

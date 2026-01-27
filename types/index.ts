@@ -5,6 +5,8 @@ export interface User {
   role: 'Doctor' | 'Chemist'|'Emergency';
 }
 
+export type Role = User['role'];
+
 export interface Prescription {
   id: string;
   patientId: string;
