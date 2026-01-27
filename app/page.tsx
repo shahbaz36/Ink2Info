@@ -1,8 +1,7 @@
 'use client'
 
 import { User } from '@/types/index'
-import Link from 'next/link';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 
 type Role = User['role'];
@@ -11,7 +10,7 @@ export default function Home() {
   const router = useRouter();
 
   const isLoggedIn = true;
-  const loggedUser: Role = 'Doctor';
+  const [loggedUser] = useState<Role>('Doctor');
 
   useEffect(() => {
     if (isLoggedIn) {
