@@ -1,5 +1,6 @@
 'use client'
 import { useState } from "react";
+import Canvas from "@/components/canvas/Canvas";
 
 // Fake Data
 const patients = [
@@ -45,8 +46,7 @@ export default function DashboardPage() {
             handleSelectPatient={handleSelectPatient} />
           <section className="col-span-12 lg:col-span-6">
             <PatientHead selectedPatientId={selectedPatientId} />
-            {/* TODO: Shahul replace prescription pad with canvas component*/}
-            <PrescriptionPad />
+            <Canvas />
           </section>
           <aside className="col-span-12 lg:col-span-3 space-y-4">
             <VisitHistory />

@@ -94,14 +94,14 @@ export default function Canvas() {
     <div className="flex flex-col items-center gap-4 w-full max-w-4xl mx-auto p-4">
       <div className="relative border-2 border-gray-400 rounded-lg shadow-xl bg-white overflow-hidden w-full aspect-[1/1.414]">
         {/* Prescription Template Overlay */}
-        <div className="absolute inset-0 pointer-events-none opacity-20">
+{/*        <div className="absolute inset-0 pointer-events-none opacity-20">
           <img 
-            src="/assets/Prescription.png" 
+            src="/assets/Prescription-2.png" 
             alt="Template" 
             className="w-full h-full object-contain"
           />
         </div>
-
+*/}
         {/* Zone Highlights (Optional: for debugging or guidance) */}
         <div className="absolute inset-0 pointer-events-none">
           {PRESCRIPTION_ZONES.map((zone) => (
@@ -117,7 +117,7 @@ export default function Canvas() {
                 border: "1px dashed rgba(0,0,0,0.1)",
               }}
             >
-              <span className="text-[8px] font-bold text-gray-500 uppercase p-1">
+              <span className="text-[0.75rem] font-bold text-gray-500 uppercase p-1">
                 {zone.label}
               </span>
             </div>
@@ -127,14 +127,14 @@ export default function Canvas() {
         <SignatureCanvas
           ref={canvasRef}
           onEnd={handleStrokeEnd}
-          penColor="blue"
+          penColor="black"
           throttle={16}
           canvasProps={{
             className: "w-full h-full cursor-crosshair",
           }}
         />
       </div>
-
+      {/* TODO: Delete these buttons and make the actions they perform be performed by the buttons in the Doctor's page */}
       <div className="flex gap-4">
         <button
           onClick={clearCanvas}
