@@ -1,10 +1,6 @@
 import { NextResponse } from 'next/server';
 import { VectorizedPrescription } from '@/types/canvas';
 
-export async function GET() {
-  return NextResponse.json({ message: 'Prescriptions API endpoint' });
-}
-
 export async function POST(request: Request) {
   try {
     const data: Partial<VectorizedPrescription> = await request.json();

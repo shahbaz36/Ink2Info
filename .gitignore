@@ -40,4 +40,10 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
+# Helix Editor Config
+.helix
+
+# Env Config
+.env.local
+
 .aye/

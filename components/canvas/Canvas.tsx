@@ -1,6 +1,6 @@
 "use client";
 
-import { Point, Stroke, ZoneLabel } from "@/types/canvas";
+import { Point, Stroke, VectorizedPrescription, ZoneLabel } from "@/types/canvas";
 import { useRef, ComponentRef, useState, useEffect } from "react";
 import SignatureCanvas from "react-signature-canvas";
 import { identifyZone } from "@/lib/utils/geometry";
@@ -66,7 +66,8 @@ export default function Canvas() {
   };
 
   const savePrescription = async () => {
-    const prescriptionData = {
+    const prescriptionData: VectorizedPrescription = {
+      id: crypto.randomUUID(),
       timestamp: Date.now(),
       strokes,
     };
@@ -96,7 +97,7 @@ export default function Canvas() {
         {/* Prescription Template Overlay */}
 {/*        <div className="absolute inset-0 pointer-events-none opacity-20">
           <img 
-            src="/assets/Prescription-2.png" 
+            src="/assets/Prescription-4.png" 
             alt="Template" 
             className="w-full h-full object-contain"
           />
