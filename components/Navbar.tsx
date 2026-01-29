@@ -15,8 +15,8 @@ export default function Navbar() {
     const config = ROLE_CONFIG[loggedUser];
 
     return (
-        <nav className={`w-full ${loggedUser === 'Emergency' ? 'bg-danger' : 'bg-surface-700'}  border-b border-stroke-muted sticky top-0 z-50`}>
-            <div className={`${loggedUser === 'Doctor' ? 'max-w-full' : 'max-w-6xl'} mx-auto px-4 py-3 flex items-center justify-between`}>
+        <nav className={`w-full ${loggedUser === 'Emergency' ? 'bg-danger' : 'bg-nav'} sticky top-0 z-50`}>
+            <div className={`${loggedUser === 'Doctor' ? 'max-w-full' : 'max-w-7xl'} mx-auto px-4 py-3 flex items-center justify-between`}>
                 {loggedUser === 'Emergency' ? <EmergencyNav /> : <>
                     <Link href="/" className="flex items-center gap-3 hover:opacity-90 transition-opacity">
                         <div className={`w-10 h-10 ${config.color} rounded-lg flex items-center justify-center`}>

@@ -13,6 +13,8 @@
 }
 
 @theme {
+  --color-nav: oklch(1 0 0);
+  
   /* Surface colors (backgrounds) - 900 is darkest */
   --color-surface-700: oklch(1 0.1 244);      /* --bg-light (lightest/white) */
   --color-surface-800: oklch(0.96 0.1 244);   /* --bg (default background) */
@@ -41,6 +43,8 @@
 @layer theme {
   :root, :host {
     @variant dark {
+
+      --color-nav: oklch(0.2 0.1 244);
       
       /* Surface colors (backgrounds) - 900 is darkest */
       --color-surface-700: oklch(0.2 0.1 244);    /* --bg-light (highest layer in dark mode) */
